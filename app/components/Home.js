@@ -1,21 +1,12 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
- 
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Header from "./Common/Header";
 
 const Home = ({ navigation }) => {
-
   return (
     <View style={styles.screen}>
-      <Header prop1="sss"/>
-      <View style={styles.body}>
-        
-      </View>
-        
+      <Header prop1="UniSocial" />
+      <View style={styles.body}></View>
     </View>
   );
 };
