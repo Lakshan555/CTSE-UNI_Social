@@ -18,13 +18,15 @@ const { height, width } = Dimensions.get("window");
 const CardComponent = ({ title, navigation, id }) => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("ViewDetails", { id: id })}
+      onPress={() => navigation.navigate("MarketPlaceViewDetails", { id: id })}
     >
       <View style={styles.cardContent}>
         <View style={styles.imageContainer}>
           <Text style={styles.cardTitle}>{title}</Text>
           <View style={styles.cardMoreDetails}>
-            <Pressable onPress={() => navigation.navigate("ViewDetails")}>
+            <Pressable
+              onPress={() => navigation.navigate("MarketPlaceViewDetails")}
+            >
               <View style={styles.seeMoreContainer}>
                 <Text style={styles.seeMoretext}>See more</Text>
                 <Octicons
