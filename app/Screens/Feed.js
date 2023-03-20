@@ -9,8 +9,9 @@ import {
   StatusBar,
   Dimensions,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Icon from "@expo/vector-icons/Ionicons";
+import Modal from "react-native-modal";
 
 const posts = [
   {
@@ -54,7 +55,9 @@ const Feed = () => {
   const screenHeight = Dimensions.get("screen").height;
   const windowHeight = Dimensions.get("window").height;
   const navbarHeight = screenHeight - windowHeight + StatusBar.currentHeight;
-  console.log(navbarHeight);
+  //
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  //
   return (
     <View>
       {posts && !!posts.length && (
@@ -66,11 +69,30 @@ const Feed = () => {
       )}
       <TouchableOpacity
         style={[styles.fabContainer, { bottom: navbarHeight + 15 }]}
+        onPress={() => setIsModalVisible(true)}
       >
         <View style={[styles.fab]}>
           <Icon name="add" size={40} color="white" />
         </View>
       </TouchableOpacity>
+      <Modal
+        isVisible={isModalVisible}
+        onBackdropPress={() => setIsModalVisible(false)}
+        animationIn="fadeInUpBig"
+        animationOut="fadeOutDownBig"
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "white",
+            borderRadius: 12,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text>Post create form</Text>
+        </View>
+      </Modal>
     </View>
   );
 };
