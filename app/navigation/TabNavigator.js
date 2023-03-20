@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabBar from "../components/TabBar";
 import Home from "../components/Home";
 import MarketPlaceNavigation from "./MarketPlaceNavigation";
+import InquiryHelpNavigation from "./InquiryHelpNavigation";
+
 
 //invoke navigation function. it will return a component
 const Tab = createBottomTabNavigator();
@@ -37,9 +39,9 @@ const TabNavigator = () => {
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name="b"
-        component={Home}
-        initialParams={{ icon: require("../images/profile.png") }}
+        name="InquiryHelpNavigation"
+        component={InquiryHelpNavigation}
+        initialParams={{ icon: require("../images/QuestionAndAnswer.png") }}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
