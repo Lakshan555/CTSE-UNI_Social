@@ -16,7 +16,8 @@ const posts = [
   {
     id: 1,
     url: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80",
-    description: "lorem Ipsum is kajsdhuaid  iasudhas9d sauidi iuadi iahdiuaosd ashduiuas saihdiuas asidhiuashuahuihh as shbdu oinaosndasoindsa",
+    description:
+      "lorem Ipsum is kajsdhuaid  iasudhas9d sauidi iuadi iahdiuaosd ashduiuas saihdiuas asidhiuashuahuihh as shbdu oinaosndasoindsa",
     author: {
       id: 1,
       name: "Pasindu Bhasura",
@@ -27,7 +28,8 @@ const posts = [
   {
     id: 2,
     url: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80",
-    description: "m joscu0wfaoifhaoda lorem Ipsum is kajsdhuaid  iasudhas9d sauidi iuadi iahdiuaosd ashduiuas saihdiuas asidhiuashuahuihh as shbdu",
+    description:
+      "m joscu0wfaoifhaoda lorem Ipsum is kajsdhuaid  iasudhas9d sauidi iuadi iahdiuaosd ashduiuas saihdiuas asidhiuashuahuihh as shbdu",
     author: {
       id: 2,
       name: "Kasun Kalhara",
@@ -81,8 +83,10 @@ const PostCardView = ({
       <Text style={styles.author}>{author.name}</Text>
       <Image source={{ uri: url }} style={styles.image} />
       <View style={styles.iconContainer}>
-        {/* <Icon name="heart-outline" size={40}/> */}
-        <Icon name="heart" color="red" size={40} />
+        <TouchableOpacity>
+          {/* <Icon name="heart-outline" size={40}/> */}
+          <Icon name="heart" color="red" size={40} />
+        </TouchableOpacity>
         <Text style={styles.likeCount}>{likeCount} likes</Text>
       </View>
       <Text style={styles.description}>{description}</Text>
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     padding: 15,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   description: {
     fontSize: 16,
@@ -127,7 +131,7 @@ const styles = StyleSheet.create({
     color: "grey",
   },
   likeCount: {
-    fontWeight: '800'
+    fontWeight: "800",
   },
   author: {
     fontSize: 16,
