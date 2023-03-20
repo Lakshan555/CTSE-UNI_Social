@@ -18,7 +18,7 @@ const SplashScreen = ({ navigation, route }) => {
       <View style={styles.accTypeSelection}>
         <TouchableOpacity
           style={styles.optionPress}
-          onPress={() => navigation.navigate("Feed")}
+          onPress={() => navigation.navigate("Login")}
         >
           <View style={styles.optionCon}>
             <Image size={120} source={require("../images/logo2.png")} />

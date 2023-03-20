@@ -25,7 +25,7 @@ export default function LoginScreen({ navigation, route }) {
 
   const onSubmit = () => {
     dispatch(Login(username, password));
-    navigation.navigate("tabNavigator");
+    navigation.navigate("TabNavigator");
   };
 
   return (

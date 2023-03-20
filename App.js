@@ -23,14 +23,9 @@ const MyStack = () => {
         name="Login"
       />
       <Stack.Screen
-        name="tabNavigator"
+        name="TabNavigator"
         options={{ headerShown: false }}
         component={TabNavigator}
-      />
-      <Stack.Screen
-        name="Feed"
-        options={{ headerShown: false }}
-        component={Feed}
       />
     </Stack.Navigator>
   );

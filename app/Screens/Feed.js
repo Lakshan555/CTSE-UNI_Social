@@ -6,6 +6,8 @@ import {
   FlatList,
   Touchable,
   TouchableOpacity,
+  StatusBar,
+  Dimensions,
 } from "react-native";
 import React from "react";
 import Icon from "@expo/vector-icons/Ionicons";
@@ -14,7 +16,7 @@ const posts = [
   {
     id: 1,
     url: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80",
-    description: "oinaosndasoindsa",
+    description: "lorem Ipsum is kajsdhuaid  iasudhas9d sauidi iuadi iahdiuaosd ashduiuas saihdiuas asidhiuashuahuihh as shbdu oinaosndasoindsa",
     author: {
       id: 1,
       name: "Pasindu Bhasura",
@@ -25,7 +27,7 @@ const posts = [
   {
     id: 2,
     url: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80",
-    description: "m joscu0wfaoifhaoda",
+    description: "m joscu0wfaoifhaoda lorem Ipsum is kajsdhuaid  iasudhas9d sauidi iuadi iahdiuaosd ashduiuas saihdiuas asidhiuashuahuihh as shbdu",
     author: {
       id: 2,
       name: "Kasun Kalhara",
@@ -36,7 +38,8 @@ const posts = [
   {
     id: 3,
     url: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80",
-    description: "lorem Ipsum is kajsdhuaid  iasudhas9d sauidi iuadi iahdiuaosd ashduiuas saihdiuas asidhiuashuahuihh as shbdu ",
+    description:
+      "lorem Ipsum is kajsdhuaid  iasudhas9d sauidi iuadi iahdiuaosd ashduiuas saihdiuas asidhiuashuahuihh as shbdu",
     author: {
       id: 3,
       name: "John Scena",
@@ -46,6 +49,10 @@ const posts = [
   },
 ];
 const Feed = () => {
+  const screenHeight = Dimensions.get("screen").height;
+  const windowHeight = Dimensions.get("window").height;
+  const navbarHeight = screenHeight - windowHeight + StatusBar.currentHeight;
+  console.log(navbarHeight);
   return (
     <View>
       {posts && !!posts.length && (
@@ -55,8 +62,10 @@ const Feed = () => {
           keyExtractor={(item) => item.id}
         />
       )}
-      <TouchableOpacity style={styles.fabContainer}>
-        <View style={styles.fab}>
+      <TouchableOpacity
+        style={[styles.fabContainer, { bottom: navbarHeight + 15 }]}
+      >
+        <View style={[styles.fab]}>
           <Icon name="add" size={40} color="white" />
         </View>
       </TouchableOpacity>
@@ -74,10 +83,10 @@ const PostCardView = ({
       <View style={styles.iconContainer}>
         {/* <Icon name="heart-outline" size={40}/> */}
         <Icon name="heart" color="red" size={40} />
-        <Text style={styles.date}>{date}</Text>
+        <Text style={styles.likeCount}>{likeCount} likes</Text>
       </View>
-      <Text style={styles.likeCount}>{likeCount} likes</Text>
       <Text style={styles.description}>{description}</Text>
+      <Text style={styles.date}>{date}</Text>
     </View>
   );
 };
@@ -88,7 +97,6 @@ const styles = StyleSheet.create({
   fabContainer: {
     position: "absolute",
     right: 15,
-    bottom: 15,
   },
   fab: {
     height: 60,
@@ -108,6 +116,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     padding: 15,
+    backgroundColor: 'white',
   },
   description: {
     fontSize: 16,
@@ -117,10 +126,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "grey",
   },
+  likeCount: {
+    fontWeight: '800'
+  },
   author: {
     fontSize: 16,
-    fontWeight: "600",
-    marginTop: 15,
+    fontWeight: "800",
+    marginTop: 10,
     marginBottom: 8,
   },
   iconContainer: {
