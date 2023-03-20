@@ -1,12 +1,13 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import TabNavigator from "./app/navigation/TabNavigator";
-import { createNativeStackNavigator } from "react-native-screens/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { store } from "./app/store/index";
 import Login from "./app/components/LoginScreen";
 import SplashScreen from "./app/components/SplashScreen";
+import Feed from "./app/Screens/Feed";
 
 const MyStack = () => {
   return (
@@ -26,6 +27,11 @@ const MyStack = () => {
         options={{ headerShown: false }}
         component={TabNavigator}
       />
+      <Stack.Screen
+        name="Feed"
+        options={{ headerShown: false }}
+        component={Feed}
+      />
     </Stack.Navigator>
   );
 };
@@ -42,6 +48,11 @@ const AuthStack = () => {
         options={{ headerShown: false }}
         component={Login}
         name="Login"
+      />
+      <Stack.Screen
+        name="Feed"
+        options={{ headerShown: false }}
+        component={Feed}
       />
     </Stack.Navigator>
   );
