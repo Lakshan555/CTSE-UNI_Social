@@ -14,16 +14,7 @@ const { height, width } = Dimensions.get("window");
 import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
-const MarketPlaceViewDetails = ({ route }) => {
-  // const { id } = route.params;
-  // console.log("id", id);
-
-  // const locationArray = useSelector(
-  //   (state) => state.AuthReducer.locationDetails
-  // );
-
-  // const location = locationArray.filter((value) => value._id === id)[0];
-  // console.log("location : ", location);
+const MyItemDetails = ({ route }) => {
   const onUpdate = () => {
     console.log("onUpdate");
   };
@@ -44,7 +35,6 @@ const MarketPlaceViewDetails = ({ route }) => {
             // onChangeText={setDriverName}
             // value={driverName}
             placeholder="Item Name"
-            editable={false}
           />
         </View>
         <View style={styles.input}>
@@ -55,7 +45,6 @@ const MarketPlaceViewDetails = ({ route }) => {
             // onChangeText={setDriverName}
             // value={driverName}
             placeholder="Description"
-            editable={false}
           />
         </View>
         <View style={styles.input}>
@@ -66,15 +55,40 @@ const MarketPlaceViewDetails = ({ route }) => {
             // onChangeText={setDriverName}
             // value={driverName}
             placeholder="Price"
-            editable={false}
           />
+        </View>
+        <View style={styles.btnCon}>
+          <View>
+            <TouchableOpacity
+              // style={styles.button}
+              onPress={onUpdate}
+            >
+              <LinearGradient
+                colors={["#150099", "#98C1FF"]}
+                start={{ x: 0, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Update Item</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity
+              // style={styles.button}
+              onPress={onDelete}
+              style={styles.delbutton}
+            >
+              <Text style={styles.buttonText}>Delete Item</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
   );
 };
 
-export default MarketPlaceViewDetails;
+export default MyItemDetails;
 
 const styles = StyleSheet.create({
   container: {

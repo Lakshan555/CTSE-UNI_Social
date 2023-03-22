@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "react-native-screens/native-stack";
 import AddNewMarketItem from "../Screens/AddNewMarketItem";
 import MarketPlace from "../Screens/MarketPlace";
 import MarketPlaceViewDetails from "../Screens/MarketPlaceViewDetails";
+import MyItemDetails from "../Screens/MyItemDetails";
 import MyMarketItems from "../Screens/MyMarketItems";
 const Stack = createNativeStackNavigator();
 
@@ -39,12 +40,21 @@ function MarketPlaceNavigation() {
       />
       <Stack.Screen
         options={{
-          title: "My Market Items",
+          title: "My Market",
           headerTintColor: "white",
           headerStyle: { backgroundColor: "#39367e" },
         }}
         name="MyMarketItems"
         component={MyMarketItems}
+      />
+      <Stack.Screen
+        options={{
+          title: "My Market Item",
+          headerTintColor: "white",
+          headerStyle: { backgroundColor: "#39367e" },
+        }}
+        name="MyItemDetails"
+        component={MyItemDetails}
       />
     </Stack.Navigator>
   );
