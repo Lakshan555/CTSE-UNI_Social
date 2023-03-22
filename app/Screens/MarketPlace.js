@@ -93,6 +93,20 @@ function MarketPlace({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.myMarketContainer}>
+        <TouchableOpacity
+          style={styles.myBtn}
+          onPress={() => navigation.navigate("MyMarketItems")}
+        >
+          <Text style={styles.addTxt}>My Market</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.addBtn}
+          onPress={() => navigation.navigate("AddNewMarketItem")}
+        >
+          <Text style={styles.addTxt}>+ Add</Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
         data={items}
         renderItem={renderItem}
@@ -122,7 +136,7 @@ const styles = StyleSheet.create({
     height: height / 5,
     marginTop: height / 45,
     borderRadius: 9,
-    borderColor: "#f7797d",
+    borderColor: "#8189B0",
     borderWidth: 0.4,
   },
   // cardImage: {
@@ -185,5 +199,31 @@ const styles = StyleSheet.create({
   },
   marketList: {
     marginBottom: height / 8,
+  },
+  myMarketContainer: {
+    width: "100%",
+    height: "6%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  addBtn: {
+    width: "20%",
+    height: "90%",
+    borderRadius: 9,
+    padding: "2%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#8189B0",
+    borderWidth: 2,
+  },
+  myBtn: {
+    width: "40%",
+    height: "90%",
+    borderRadius: 9,
+    padding: "2%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#8189B0",
+    borderWidth: 2,
   },
 });
