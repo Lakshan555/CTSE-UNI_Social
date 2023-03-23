@@ -17,15 +17,30 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 const { height, width } = Dimensions.get("window");
 import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  auth,
+  logInWithEmailAndPassword,
+  getUserRoleByEmail,
+} from "../../backend/userController";
+
 export default function LoginScreen({ navigation, route }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
 
-  const onSubmit = () => {
-    dispatch(Login(username, password));
-    navigation.navigate("tabNavigator");
+  const onSubmit = async () => {
+    if (username && password) {
+      const user = await logInWithEmailAndPassword(username, password);
+      if (user) {
+        const res = await getUserRoleByEmail(user.email);
+        console.log(res);
+        await AsyncStorage.setItem("userData", JSON.stringify(res));
+        dispatch(Login(username, password));
+        navigation.navigate("tabNavigator");
+      }
+    }
   };
 
   return (
@@ -39,8 +54,8 @@ export default function LoginScreen({ navigation, route }) {
           <MaterialIcons name="email" size={25} color="#8189B0" />
           <TextInput
             style={styles.inputInside}
-            // onChangeText={setDriverName}
-            // value={driverName}
+            onChangeText={setUsername}
+            value={username}
             placeholder="Email"
           />
         </View>
@@ -53,8 +68,8 @@ export default function LoginScreen({ navigation, route }) {
           <TextInput
             secureTextEntry={true}
             style={styles.inputInside}
-            // onChangeText={setDriverName}
-            // value={driverName}
+            onChangeText={setPassword}
+            value={password}
             placeholder="Password"
           />
         </View>
@@ -116,6 +131,7 @@ const styles = StyleSheet.create({
   },
   inputInside: {
     paddingLeft: 10,
+    width: width,
   },
   button: {
     alignItems: "center",
