@@ -1,12 +1,13 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import TabNavigator from "./app/navigation/TabNavigator";
-import { createNativeStackNavigator } from "react-native-screens/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { store } from "./app/store/index";
 import Login from "./app/components/LoginScreen";
 import SplashScreen from "./app/components/SplashScreen";
+import Feed from "./app/Screens/Feed";
 import blogDetails from "./app/Screens/Blog/blogDetails";
 import AddBlog from "./app/Screens/Blog/AddBlog";
 import RegisterScreen from "./app/components/RegisterScreen";
