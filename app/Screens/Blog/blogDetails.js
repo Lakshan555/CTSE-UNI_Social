@@ -1,23 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { deleteBlog } from "../../../backend/PostController/Postcontroller";
 import Header from "../../components/Common/Header";
 
 const blogDetails = ({ route, navigation }) => {
-  console.log(route.params);
+  //refresh state
+  const [refresh, setRefresh] = useState(false);
+
+  console.log("blogDetails", route.params.item.id);
   const title = route.params.item.title;
-  const blog = route.params.item.blog;
+  const body = route.params.item.body;
+  const blogId = route.params.item.id;
+  const [blog, setBlogs] = useState([]);
+  const singleData = { title, body, blogId };
+
+  //Edit handler
+  const editHandler = () => {
+    navigation.navigate("editForm", {
+      singleData,
+    });
+  };
+
+  //Delete handler
+  const deleteHandler = async () => {
+    await deleteBlog(blogId);
+    navigation.navigate("blogHome");
+  };
+
+  //refresh handler
+  const pullUp = () => {
+    setRefresh(true);
+    setTimeout(() => {
+      setRefresh(false);
+    }, 200);
+  };
+
   //   const blog = route.params.testblog
   return (
     <View style={styles.screen}>
-      <Header prop1="Test Detols pAge" />
+      <Header prop1={title} />
       <View style={styles.body}>
         <View>
           {/* first card view */}
@@ -25,24 +55,41 @@ const blogDetails = ({ route, navigation }) => {
             <View style={{ flexDirection: "row" }}>
               {/* edit Button */}
               <View style={{ width: "35%" }}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => editHandler()}
+                >
                   <Text style={styles.buttonText}>Edit</Text>
                 </TouchableOpacity>
               </View>
               {/* Delete Button */}
               <View style={{ width: "50%" }}>
-                <TouchableOpacity style={styles.button2}>
+                <TouchableOpacity
+                  style={styles.button2}
+                  onPress={deleteHandler}
+                >
                   <Text style={styles.buttonText}>Delete</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
+
           {/* Second card view */}
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={() => pullUp()} />
+            }
+          >
             <View style={{ flex: 1, paddingBottom: 300 }}>
               <View style={styles.cardList}>
-                <Text>{title}</Text>
-                <Text>{blog}</Text>
+                <Text style={styles.titleStyle}>{title}</Text>
+                <View style={styles.card}>
+                  <Image
+                    style={styles.coverImg}
+                    source={require("../../images/book.png")}
+                  />
+                </View>
+                <Text style={styles.blogtextStyle}>{body}</Text>
               </View>
             </View>
           </ScrollView>
@@ -67,6 +114,14 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     width: "100%",
   },
+  titleStyle: {
+    fontSize: 25,
+    paddingBottom: 15,
+  },
+  blogtextStyle: {
+    textAlign: "justify",
+    paddingTop: 20,
+  },
   card: {
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
@@ -74,13 +129,24 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.26,
     elevation: 8,
     backgroundColor: "white",
-    padding: 0,
+    padding: 8,
+
+    borderRadius: 10,
+  },
+  card: {
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 0.26,
+    elevation: 8,
+    backgroundColor: "white",
+    margin: 0,
     borderRadius: 10,
   },
   coverImg: {
     resizeMode: "cover",
     height: 200,
-    width: 380,
+    width: 338,
     borderRadius: 10,
   },
   button: {

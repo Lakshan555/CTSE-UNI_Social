@@ -1,62 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { getBlog } from "../../../backend/PostController/Postcontroller";
 import Header from "../../components/Common/Header";
 
 const BlogHome = ({ navigation }) => {
-  const [blog, setBlogs] = useState([
-    {
-      id: 1,
-      title: "Test long name for the title",
-      Author: "Ishanka",
-      blog: "Lorem ipsum is placeholders text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.",
-    },
-    {
-      id: 2,
-      title: "title1",
-      Author: "Ishanka",
-      blog: "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.",
-    },
-    {
-      id: 3,
-      title: "title2",
-      Author: "Ishanka",
-      blog: "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.",
-    },
-    { id: 4, title: "title3", Author: "Ishanka" },
-    {
-      id: 4,
-      title: "title5",
-      Author: "Ishanka",
-      blog: "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.",
-    },
-    {
-      id: 4,
-      title: "title5",
-      Author: "Ishanka",
-      blog: "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.",
-    },
-  ]);
+  const [blog, setBlogs] = useState([]);
+  //refresh state
+  const [refresh, setRefresh] = useState(false);
+
   const BlogDetailsHandler = (item) => {
-    console.log(item);
+    console.log("BlogDetailsHandler", item);
     navigation.navigate("blogDetails", {
-      item: item,
+      item,
     });
   };
   const BlogAddHandler = () => {
     navigation.navigate("blogForm");
   };
 
+  const getAllList = async () => {
+    const bogsData = await getBlog();
+    setBlogs(bogsData);
+  };
+
+  useEffect(() => {
+    getAllList();
+  }, []);
+
+  console.log("blog HOME", blog);
+  //refresh handler
+  const pullUp = () => {
+    setRefresh(true);
+    setTimeout(() => {
+      setRefresh(false);
+      getAllList();
+    }, 200);
+  };
+
   return (
     <View style={styles.screen}>
-      <Header prop1="sss" />
+      <Header prop1="BLOGS" />
       <View style={styles.body}>
         <View>
           <View style={styles.card}>
@@ -74,15 +66,20 @@ const BlogHome = ({ navigation }) => {
                 All blogs
               </Text>
             </View>
+            {/* Add blog */}
             <View style={{ width: "50%", paddingLeft: 32 }}>
-              <TouchableOpacity style={styles.button}  onPress={BlogAddHandler}>
+              <TouchableOpacity style={styles.button} onPress={BlogAddHandler}>
                 <Text style={styles.buttonText}>Add blog</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
 
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={() => pullUp()} />
+          }
+        >
           <View style={styles.listView}>
             <FlatList
               data={blog}
@@ -98,9 +95,9 @@ const BlogHome = ({ navigation }) => {
                   </Text>
                   <Text style={{ fontSize: 16 }}>Author: {item.Author}</Text>
                   <Text style={{ fontSize: 16 }}>
-                    {item.blog && (
+                    {item.body && (
                       <Text style={{ fontSize: 16 }}>
-                        {`${item.blog.substring(0, 100)}...`}
+                        {`${item.body.substring(0, 100)}...`}
                       </Text>
                     )}
                   </Text>
@@ -165,7 +162,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#FFAE00",
+    backgroundColor: "#FFDD83",
     // padding: 15,
     paddingTop: 8,
     paddingBottom: 8,
@@ -184,7 +181,7 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     alignItems: "center",
-    backgroundColor: "#FFAE00",
+    backgroundColor: "#BCCEF8",
     // padding: 15,
     paddingTop: 8,
     paddingBottom: 8,

@@ -11,6 +11,7 @@ import Feed from "./app/Screens/Feed";
 import blogDetails from "./app/Screens/Blog/blogDetails";
 import AddBlog from "./app/Screens/Blog/AddBlog";
 import RegisterScreen from "./app/components/RegisterScreen";
+import EditBlog from "./app/Screens/Blog/EditBlog";
 
 const MyStack = () => {
   return (
@@ -45,6 +46,11 @@ const MyStack = () => {
         options={{ headerShown: false }}
         component={AddBlog}
       />
+      <Stack.Screen
+        name="editForm"
+        options={{ headerShown: false }}
+        component={EditBlog}
+      />
     </Stack.Navigator>
   );
 };
@@ -68,6 +74,11 @@ const AuthStack = () => {
         name="Login"
       />
       <Stack.Screen
+        name="tabNavigator"
+        options={{ headerShown: false }}
+        component={TabNavigator}
+      />
+      <Stack.Screen
         options={{ headerShown: false }}
         component={RegisterScreen}
         name="Register"
@@ -81,6 +92,11 @@ const AuthStack = () => {
         name="blogForm"
         options={{ headerShown: false }}
         component={AddBlog}
+      />
+      <Stack.Screen
+        name="editForm"
+        options={{ headerShown: false }}
+        component={EditBlog}
       />
     </Stack.Navigator>
   );
