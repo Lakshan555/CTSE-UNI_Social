@@ -8,10 +8,17 @@ import {
   TouchableOpacity,
   StatusBar,
   Dimensions,
+  Button,
 } from "react-native";
 import React, { useState } from "react";
 import Icon from "@expo/vector-icons/Ionicons";
 import Modal from "react-native-modal";
+import * as ImagePicker from "expo-image-picker";
+import { getFirestore, collection, addDoc } from "firebase/firestore/lite";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { app } from "../../firebaseConfig";
+import 'react-native-get-random-values';
+import { v4 as uuid } from 'uuid';
 
 const posts = [
   {
@@ -57,6 +64,65 @@ const Feed = () => {
   const navbarHeight = screenHeight - windowHeight + StatusBar.currentHeight;
   //
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      const db = getFirestore(app);
+      const storage = getStorage(app);
+      const id = uuid();
+      const imagesRef = ref(storage, `feed/images/${id}`);
+      const res = await fetch(result.assets[0].uri);
+      const blob = await res.blob();
+      //
+      uploadBytes(imagesRef, blob)
+      .then(() => {
+        getDownloadURL(imagesRef)
+        .then(url => {
+          const imagesCol = collection(db, "feed");
+          addDoc(imagesCol, {
+            url,
+          }).then(() => {
+            console.log("Image added!");
+            console.log(url);
+          });
+        });
+        ;
+      });
+      // blob.close();
+      // const url = await getDownloadURL(imagesRef);
+    }
+  };
+  //
+  var options = {
+    title: "Select Image",
+    customButtons: [
+      {
+        name: "customOptionKey",
+        title: "Choose Photo from Custom Option",
+      },
+    ],
+    storageOptions: {
+      skipBackup: true,
+      path: "images",
+    },
+  };
+  const selectImage = () => {
+    launchImageLibrary(options, (res) => {
+      console.log(res);
+    });
+  };
   //
   return (
     <View>
@@ -88,9 +154,24 @@ const Feed = () => {
             borderRadius: 12,
             justifyContent: "center",
             alignItems: "center",
+            paddingHorizontal: 30,
+            paddingVertical: 10,
           }}
         >
-          <Text>Post create form</Text>
+          <Image
+            source={{
+              uri: image
+                ? image
+                : "https://us.123rf.com/450wm/koblizeek/koblizeek2001/koblizeek200100006/137486703-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment.jpg?ver=6",
+            }}
+            style={{
+              width: "100%",
+              height: 300,
+              marginBottom: 30,
+              borderRadius: 12,
+            }}
+          />
+          <Button title="Pick an image from camera roll" onPress={pickImage} />
         </View>
       </Modal>
     </View>
