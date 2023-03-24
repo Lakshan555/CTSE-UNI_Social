@@ -15,26 +15,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 const MarketPlaceViewDetails = ({ route }) => {
-  // const { id } = route.params;
-  // console.log("id", id);
-
-  // const locationArray = useSelector(
-  //   (state) => state.AuthReducer.locationDetails
-  // );
-
-  // const location = locationArray.filter((value) => value._id === id)[0];
-  // console.log("location : ", location);
-  const onUpdate = () => {
-    console.log("onUpdate");
-  };
-  const onDelete = () => {
-    console.log("onDelete");
-  };
+  const { id, title, description, image, price } = route.params;
+  console.log("title : ", title);
 
   return (
     <View style={styles.container}>
       <View style={styles.imageConatiner}>
-        {/* <Image source={{ uri: location.image }} style={styles.locationImage} /> */}
+        <Image source={{ uri: image }} style={styles.locationImage} />
       </View>
       <View style={styles.inputCon}>
         <View style={styles.input}>
@@ -42,7 +29,7 @@ const MarketPlaceViewDetails = ({ route }) => {
           <TextInput
             style={styles.inputInside}
             // onChangeText={setDriverName}
-            // value={driverName}
+            value={title}
             placeholder="Item Name"
             editable={false}
           />
@@ -53,7 +40,7 @@ const MarketPlaceViewDetails = ({ route }) => {
             style={styles.inputInside}
             multiline={true}
             // onChangeText={setDriverName}
-            // value={driverName}
+            value={description}
             placeholder="Description"
             editable={false}
           />
@@ -64,7 +51,7 @@ const MarketPlaceViewDetails = ({ route }) => {
             style={styles.inputInside}
             keyboardType="number"
             // onChangeText={setDriverName}
-            // value={driverName}
+            value={price}
             placeholder="Price"
             editable={false}
           />
@@ -94,6 +81,7 @@ const styles = StyleSheet.create({
   },
   inputInside: {
     paddingLeft: 10,
+    color: "black",
   },
   input: {
     flexDirection: "row",
@@ -157,9 +145,14 @@ const styles = StyleSheet.create({
   },
   inputCon: {
     width: "100%",
+    marginTop: "5%",
   },
   btnCon: {
     flexDirection: "row",
     justifyContent: "center",
+  },
+  locationImage: {
+    width: "100%",
+    height: "100%",
   },
 });

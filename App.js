@@ -29,7 +29,7 @@ const MyStack = () => {
         options={{ headerShown: false }}
         component={RegisterScreen}
         name="Register"
-      />      
+      />
       <Stack.Screen
         name="tabNavigator"
         options={{ headerShown: false }}
@@ -40,7 +40,7 @@ const MyStack = () => {
         options={{ headerShown: false }}
         component={blogDetails}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="blogForm"
         options={{ headerShown: false }}
         component={AddBlog}
@@ -51,13 +51,12 @@ const MyStack = () => {
 
 const AuthStack = () => {
   return (
-    
     <Stack.Navigator>
-        {/* <Stack.Screen
+      <Stack.Screen
         name="tabNavigator"
         options={{ headerShown: false }}
         component={TabNavigator}
-      /> */}
+      />
       <Stack.Screen
         options={{ headerShown: false }}
         component={SplashScreen}
@@ -73,12 +72,12 @@ const AuthStack = () => {
         component={RegisterScreen}
         name="Register"
       />
-       <Stack.Screen
+      <Stack.Screen
         name="blogDetails"
         options={{ headerShown: false }}
         component={blogDetails}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="blogForm"
         options={{ headerShown: false }}
         component={AddBlog}

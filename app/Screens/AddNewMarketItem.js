@@ -28,7 +28,7 @@ const AddNewMarketItem = () => {
   const [imageUploaded, setImageUploaded] = useState(false);
 
   const onSubmit = async () => {
-    createMarketItem(downloadURL, title, description, price)
+    await createMarketItem(downloadURL, title, description, price)
       .then((res) => {
         Alert.alert("Successful", "Item Added successful", [{ text: "OK" }]);
       })
@@ -50,11 +50,12 @@ const AddNewMarketItem = () => {
 
     if (!result.canceled) {
       setImage(result.uri);
-      uploadToFirebase();
     }
+    const imageUpload = await uploadToFirebase();
   };
 
   const uploadToFirebase = async () => {
+    console.log("Uploading to Firebase...", image);
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {

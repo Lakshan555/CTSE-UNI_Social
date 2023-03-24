@@ -7,33 +7,66 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React from "react";
 import { useSelector } from "react-redux";
 const { height, width } = Dimensions.get("window");
 import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import {
+  deleteItem,
+  updateItem,
+} from "../../backend/PostController/MarketItemController";
+import { useState } from "react";
 
-const MyItemDetails = ({ route }) => {
+const MyItemDetails = ({ navigation, route }) => {
+  const { id, title, description, image, price } = route.params;
+
+  const [upTitle, setTilte] = useState();
+  const [upDescription, setDescription] = useState();
+  const [upPrice, setPrice] = useState(0);
+
   const onUpdate = () => {
     console.log("onUpdate");
+    updateItem(id, image, upTitle, upDescription, upPrice)
+      .then((res) => {
+        console.log(res);
+        Alert.alert("Successful", "Item Updated successful", [{ text: "OK" }]);
+        navigation.navigate("MyMarketItems");
+      })
+      .catch((err) => {
+        console.log("err : " + err);
+        Alert.alert("Failed", "Item Updating Failed", [{ text: "OK" }]);
+      });
   };
+
   const onDelete = () => {
     console.log("onDelete");
+    deleteItem(id)
+      .then((res) => {
+        console.log(res);
+        Alert.alert("Successful", "Item Deleted successful", [{ text: "OK" }]);
+        navigation.navigate("MyMarketItems");
+      })
+      .catch((err) => {
+        console.log("err : " + err);
+        Alert.alert("Failed", "Item Deleted Failed", [{ text: "OK" }]);
+      });
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.imageConatiner}>
-        {/* <Image source={{ uri: location.image }} style={styles.locationImage} /> */}
+        <Image source={{ uri: image }} style={styles.locationImage} />
       </View>
       <View style={styles.inputCon}>
         <View style={styles.input}>
           <MaterialIcons name="app-registration" size={25} color="#8189B0" />
           <TextInput
             style={styles.inputInside}
-            // onChangeText={setDriverName}
-            // value={driverName}
+            onChangeText={setTilte}
+            defaultValue={title}
             placeholder="Item Name"
           />
         </View>
@@ -42,8 +75,8 @@ const MyItemDetails = ({ route }) => {
           <TextInput
             style={styles.inputInside}
             multiline={true}
-            // onChangeText={setDriverName}
-            // value={driverName}
+            onChangeText={setDescription}
+            defaultValue={description}
             placeholder="Description"
           />
         </View>
@@ -52,8 +85,8 @@ const MyItemDetails = ({ route }) => {
           <TextInput
             style={styles.inputInside}
             keyboardType="number"
-            // onChangeText={setDriverName}
-            // value={driverName}
+            onChangeText={setPrice}
+            defaultValue={price}
             placeholder="Price"
           />
         </View>
@@ -171,9 +204,14 @@ const styles = StyleSheet.create({
   },
   inputCon: {
     width: "100%",
+    marginTop: "3%",
   },
   btnCon: {
     flexDirection: "row",
     justifyContent: "center",
+  },
+  locationImage: {
+    width: "100%",
+    height: "100%",
   },
 });
