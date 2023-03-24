@@ -58,11 +58,11 @@ const MyStack = () => {
 const AuthStack = () => {
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen
+      <Stack.Screen
         name="tabNavigator"
         options={{ headerShown: false }}
         component={TabNavigator}
-      /> */}
+      />
       <Stack.Screen
         options={{ headerShown: false }}
         component={SplashScreen}

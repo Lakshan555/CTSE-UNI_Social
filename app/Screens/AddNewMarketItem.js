@@ -5,29 +5,118 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
+  Alert,
 } from "react-native";
 import React from "react";
 const { height, width } = Dimensions.get("window");
 import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useState } from "react";
+import * as ImagePicker from "expo-image-picker";
+import { createMarketItem } from "../../backend/PostController/MarketItemController";
+import * as Firebase from "firebase";
+import { firebaseConfig } from "../../firebase";
 
 const AddNewMarketItem = () => {
-  const onSubmit = () => {
-    console.log("AddNewMarketItem");
+  const [title, setTilte] = useState();
+  const [description, setDescription] = useState();
+  const [price, setPrice] = useState(0);
+  const [image, setImage] = useState();
+  const [uploading, setUploading] = useState(false);
+  const [downloadURL, setDownloadURL] = useState(null);
+  const [imageUploaded, setImageUploaded] = useState(false);
+
+  const onSubmit = async () => {
+    await createMarketItem(downloadURL, title, description, price)
+      .then((res) => {
+        Alert.alert("Successful", "Item Added successful", [{ text: "OK" }]);
+      })
+      .catch((err) => {
+        console.log("err : " + err);
+        Alert.alert("Failed", "Item Added Failed", [{ text: "OK" }]);
+      });
+  };
+
+  const uploadImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.uri);
+    }
+    const imageUpload = await uploadToFirebase();
+  };
+
+  const uploadToFirebase = async () => {
+    console.log("Uploading to Firebase...", image);
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", image, true);
+      xhr.send(null);
+    });
+
+    const ref = Firebase.storage().ref().child(new Date().toString());
+    const snapshot = ref.put(blob);
+
+    snapshot.on(
+      Firebase.storage.TaskEvent.STATE_CHANGED,
+      () => {
+        setUploading(true);
+      },
+      (error) => {
+        setUploading(false);
+        console.log("error - ", error);
+        blob.close();
+        return;
+      },
+      () => {
+        snapshot.snapshot.ref.getDownloadURL().then((url) => {
+          setUploading(false);
+          console.log("Download url - ", url);
+          setDownloadURL(url);
+          setImageUploaded(true);
+          blob.close();
+          return url;
+        });
+      }
+    );
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.topic}>New Market Item Details</Text>
       <View style={styles.imageConatiner}>
-        {/* <Image source={{ uri: location.image }} style={styles.locationImage} /> */}
+        <TouchableOpacity style={styles.addImagebtn} onPress={uploadImage}>
+          <Image
+            source={
+              image === null
+                ? require("../images/add_image.png")
+                : { uri: image }
+            }
+            style={styles.locationImage}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.inputCon}>
         <View style={styles.input}>
           <MaterialIcons name="app-registration" size={25} color="#8189B0" />
           <TextInput
             style={styles.inputInside}
-            // onChangeText={setDriverName}
+            onChangeText={setTilte}
             // value={driverName}
             placeholder="Item Name"
           />
@@ -37,7 +126,7 @@ const AddNewMarketItem = () => {
           <TextInput
             style={styles.inputInside}
             multiline={true}
-            // onChangeText={setDriverName}
+            onChangeText={setDescription}
             // value={driverName}
             placeholder="Description"
           />
@@ -47,7 +136,7 @@ const AddNewMarketItem = () => {
           <TextInput
             style={styles.inputInside}
             keyboardType="number"
-            // onChangeText={setDriverName}
+            onChangeText={setPrice}
             // value={driverName}
             placeholder="Price"
           />
@@ -137,5 +226,13 @@ const styles = StyleSheet.create({
   },
   inputCon: {
     width: "100%",
+  },
+  locationImage: {
+    width: "100%",
+    height: "100%",
+  },
+  addImagebtn: {
+    width: "100%",
+    height: "100%",
   },
 });
