@@ -22,26 +22,35 @@ import {
   auth,
   logInWithEmailAndPassword,
   getUserRoleByEmail,
+  registerWithEmailAndPassword,
 } from "../../backend/userController";
 
-export default function LoginScreen({ navigation, route }) {
+const RegisterScreen = ({ navigation, route }) => {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
 
   const dispatch = useDispatch();
 
   const onSubmit = async () => {
-    // if (username && password) {
-    //   const user = await logInWithEmailAndPassword(username, password);
-    //   if (user) {
-    //     const res = await getUserRoleByEmail(user.email);
-    //     console.log(res);
-    //     await AsyncStorage.setItem("userData", JSON.stringify(res));
-    //     dispatch(Login(username, password));
-    //     navigation.navigate("tabNavigator");
-    //   }
-    // }
-    navigation.navigate("tabNavigator");
+    if (username && email && password) {
+
+
+      const user = await registerWithEmailAndPassword(
+        username,
+        email,
+        role,
+        password,
+      );
+      if (user) {
+        const res = await getUserRoleByEmail(user.email);
+        // console.log(res);
+        await AsyncStorage.setItem("userData", JSON.stringify(res));
+        dispatch(Login(username, password));
+        navigation.navigate("Home");
+      }
+    }
   };
 
   return (
@@ -52,11 +61,20 @@ export default function LoginScreen({ navigation, route }) {
       </View>
       <View style={styles.textInputContainer}>
         <View style={styles.input}>
-          <MaterialIcons name="email" size={25} color="#8189B0" />
+          <MaterialIcons name="people" size={25} color="#8189B0" />
           <TextInput
             style={styles.inputInside}
             onChangeText={setUsername}
             value={username}
+            placeholder="Username"
+          />
+        </View>
+        <View style={styles.input}>
+          <MaterialIcons name="email" size={25} color="#8189B0" />
+          <TextInput
+            style={styles.inputInside}
+            onChangeText={setEmail}
+            value={email}
             placeholder="Email"
           />
         </View>
@@ -74,9 +92,6 @@ export default function LoginScreen({ navigation, route }) {
             placeholder="Password"
           />
         </View>
-        <View style={styles.forget}>
-          <Text style={styles.forgetText}>Forgot Password?</Text>
-        </View>
         <View>
           <TouchableOpacity
             // style={styles.button}
@@ -88,24 +103,26 @@ export default function LoginScreen({ navigation, route }) {
               end={{ x: 1, y: 0.5 }}
               style={styles.button}
             >
-              <Text style={styles.buttonText}>Sign In</Text>
+              <Text style={styles.buttonText}>Sign Up</Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>
         <View style={styles.newAcc}>
-          <Text>Don’t you have account?</Text>
+          <Text>Already registered?</Text>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("Register");
+              navigation.navigate("Login");
             }}
           >
-            <Text style={styles.newAccText}>Create new account.</Text>
-          </TouchableOpacity>          
+            <Text style={styles.newAccText}>logged in to account.</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
   );
-}
+};
+
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {
