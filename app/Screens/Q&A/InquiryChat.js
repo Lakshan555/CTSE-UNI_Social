@@ -23,6 +23,8 @@ import {
   deleteFaq,
 } from "../../../backend/FAQController/FAQController";
 import AlertDialog from "../../components/Common/AlertDialog";
+import CommunityScreen from "./CommunityScreen";
+import HelpScreen from "./HelpScreen";
 
 const { height, width } = Dimensions.get("window");
 
@@ -63,11 +65,13 @@ const InquiryChat = ({ navigation, route }) => {
       setIsFAQ(false);
     }
     if (option === "Help") {
+      setIsLoading(false);
       setIsHelp(true);
     } else {
       setIsHelp(false);
     }
     if (option === "Community") {
+      setIsLoading(false);
       setIsCommunity(true);
     } else {
       setIsCommunity(false);
@@ -249,7 +253,19 @@ const InquiryChat = ({ navigation, route }) => {
             </View>
           )
         ) : (
-          <Text>No data found</Text>
+          isFAQ && <Text>No data found</Text>
+        )}
+
+        {isCommunity && (
+          <View style={styles.communityView}>
+            <CommunityScreen />
+          </View>
+        )}
+
+        {isHelp && (
+          <View style={styles.helpViewContainer}>
+            <HelpScreen />
+          </View>
         )}
 
         {isLoading ? (
@@ -450,4 +466,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#0066CC",
     color: "#FFFFFF",
   },
+  communityView: {
+    height: "90%",
+    bottom: 20,
+    padding: 20,
+  },
+  helpViewContainer:{
+    height: "90%",
+    bottom: 20,
+    padding: 20,
+  }
 });
