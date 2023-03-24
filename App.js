@@ -9,6 +9,7 @@ import Login from "./app/components/LoginScreen";
 import SplashScreen from "./app/components/SplashScreen";
 import blogDetails from "./app/Screens/Blog/blogDetails";
 import AddBlog from "./app/Screens/Blog/AddBlog";
+import RegisterScreen from "./app/components/RegisterScreen";
 
 const MyStack = () => {
   return (
@@ -23,6 +24,11 @@ const MyStack = () => {
         component={Login}
         name="Login"
       />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        component={RegisterScreen}
+        name="Register"
+      />      
       <Stack.Screen
         name="tabNavigator"
         options={{ headerShown: false }}
@@ -46,11 +52,11 @@ const AuthStack = () => {
   return (
     
     <Stack.Navigator>
-        <Stack.Screen
+        {/* <Stack.Screen
         name="tabNavigator"
         options={{ headerShown: false }}
         component={TabNavigator}
-      />
+      /> */}
       <Stack.Screen
         options={{ headerShown: false }}
         component={SplashScreen}
@@ -60,6 +66,11 @@ const AuthStack = () => {
         options={{ headerShown: false }}
         component={Login}
         name="Login"
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        component={RegisterScreen}
+        name="Register"
       />
        <Stack.Screen
         name="blogDetails"
