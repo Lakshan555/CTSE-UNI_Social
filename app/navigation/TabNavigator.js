@@ -20,7 +20,7 @@ const TabNavigator = () => {
         initialParams={{ icon: require("../images/FullImage.png") }}
       />
       <Tab.Screen
-        name="Report"
+        name="blogHome"
         component={BlogHome}
         initialParams={{ icon: require("../images/OpenBook.png") }}
         options={{ headerShown: false }}

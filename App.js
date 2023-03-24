@@ -11,6 +11,7 @@ import Feed from "./app/Screens/Feed";
 import blogDetails from "./app/Screens/Blog/blogDetails";
 import AddBlog from "./app/Screens/Blog/AddBlog";
 import RegisterScreen from "./app/components/RegisterScreen";
+import EditBlog from "./app/Screens/Blog/EditBlog";
 
 const MyStack = () => {
   return (
@@ -29,7 +30,7 @@ const MyStack = () => {
         options={{ headerShown: false }}
         component={RegisterScreen}
         name="Register"
-      />      
+      />
       <Stack.Screen
         name="tabNavigator"
         options={{ headerShown: false }}
@@ -40,10 +41,15 @@ const MyStack = () => {
         options={{ headerShown: false }}
         component={blogDetails}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="blogForm"
         options={{ headerShown: false }}
         component={AddBlog}
+      />
+      <Stack.Screen
+        name="editForm"
+        options={{ headerShown: false }}
+        component={EditBlog}
       />
     </Stack.Navigator>
   );
@@ -51,13 +57,12 @@ const MyStack = () => {
 
 const AuthStack = () => {
   return (
-    
     <Stack.Navigator>
-        {/* <Stack.Screen
+      <Stack.Screen
         name="tabNavigator"
         options={{ headerShown: false }}
         component={TabNavigator}
-      /> */}
+      />
       <Stack.Screen
         options={{ headerShown: false }}
         component={SplashScreen}
@@ -69,19 +74,29 @@ const AuthStack = () => {
         name="Login"
       />
       <Stack.Screen
+        name="tabNavigator"
+        options={{ headerShown: false }}
+        component={TabNavigator}
+      />
+      <Stack.Screen
         options={{ headerShown: false }}
         component={RegisterScreen}
         name="Register"
       />
-       <Stack.Screen
+      <Stack.Screen
         name="blogDetails"
         options={{ headerShown: false }}
         component={blogDetails}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="blogForm"
         options={{ headerShown: false }}
         component={AddBlog}
+      />
+      <Stack.Screen
+        name="editForm"
+        options={{ headerShown: false }}
+        component={EditBlog}
       />
     </Stack.Navigator>
   );

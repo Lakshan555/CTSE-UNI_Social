@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { Login } from "../store/actions";
-import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 const { height, width } = Dimensions.get("window");
@@ -35,13 +34,11 @@ const RegisterScreen = ({ navigation, route }) => {
 
   const onSubmit = async () => {
     if (username && email && password) {
-
-
       const user = await registerWithEmailAndPassword(
         username,
         email,
         role,
-        password,
+        password
       );
       if (user) {
         const res = await getUserRoleByEmail(user.email);
@@ -55,7 +52,6 @@ const RegisterScreen = ({ navigation, route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <Ionicons name="chevron-back" size={30} color="black" />
       <View style={styles.logo}>
         <Image size={80} source={require("../images/logo.png")} />
       </View>
@@ -108,7 +104,7 @@ const RegisterScreen = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
         <View style={styles.newAcc}>
-          <Text>Already registered?</Text>
+          <Text>Already registered? </Text>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Login");

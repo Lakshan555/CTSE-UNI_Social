@@ -9,23 +9,43 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { createPost } from "../../../backend/PostController/Postcontroller";
+import {
+  createPost,
+  updateBlog,
+} from "../../../backend/PostController/Postcontroller";
 import Header from "../../components/Common/Header";
 
-const AddBlog = ({ route, navigation }) => {
+const EditBlog = ({ route, navigation }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [id, setIdUpdate] = useState("");
+  // console.log({ id });
 
-  console.log(title);
-  console.log(body);
+  // const blog = route.params.item.blog;
+  // const blogId = route.params.item.id;
+  console.log("EditBlog", route.params.singleData.blogId);
+
+  useEffect(() => {
+    const blogTitle = route.params.singleData.title;
+    const blogBody = route.params.singleData.body;
+    const id = route.params.singleData.blogId;
+
+    setTitle(blogTitle);
+    setBody(blogBody);
+    setIdUpdate(id);
+  }, []);
+
+  const item = { title, body, id };
 
   const onSubmit = async () => {
     if (title && body) {
       console.log(title);
       console.log(body);
-      await createPost(title, body);
+      await updateBlog(id, title, body);
       setTimeout(() => {
-        navigation.navigate("blogHome");
+        navigation.navigate("blogDetails", {
+          item,
+        });
       }, 200);
     }
   };
@@ -40,7 +60,7 @@ const AddBlog = ({ route, navigation }) => {
 
   return (
     <View style={styles.screen}>
-      <Header prop1="Test Detols pAge" />
+      <Header prop1="EDIT BLOG" />
       <View style={styles.body}>
         <View>
           <View>
@@ -49,16 +69,15 @@ const AddBlog = ({ route, navigation }) => {
               style={styles.input}
               onChangeText={setTitle}
               value={title}
-              placeholder="Title"
+              placeholder="title"
             />
           </View>
-          <View>
+          <View style={styles.input2}>
             {/* <MaterialIcons name="email" size={25} color="#8189B0" /> */}
             <TextInput
-              style={styles.input2}
+              style={styles.inputInside}
               onChangeText={setBody}
               value={body}
-              multiline
               placeholder="Tell your story…"
             />
           </View>
@@ -190,4 +209,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddBlog;
+export default EditBlog;
