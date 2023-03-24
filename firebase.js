@@ -1,13 +1,14 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import "firebase/storage";
 
 // Firebase app configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDe1wlKciXGWTWyBaLUYu39qEgkdPlq7eA",
   authDomain: "unisocialapp-e3389.firebaseapp.com",
   projectId: "unisocialapp-e3389",
-  storageBucket: "unisocialapp-e3389.appspot.com",
+  storageBucket: "gs://unisocialapp-e3389.appspot.com",
   messagingSenderId: "1039820270186",
   appId: "1:1039820270186:web:37cbb34c867b698394f813",
 };
@@ -20,7 +21,9 @@ if (!firebase.apps.length) {
 const database = firebase.firestore();
 // Create an authentication instance
 const auth = firebase.auth();
+//
+const storage = firebase.storage();
 
 // const database = getFirestore(app);
 
-export { auth, database };
+export { auth, database, storage };

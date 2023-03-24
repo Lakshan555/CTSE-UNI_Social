@@ -13,11 +13,11 @@ import React, { useState } from "react";
 import Icon from "@expo/vector-icons/Ionicons";
 import Modal from "react-native-modal";
 import * as ImagePicker from "expo-image-picker";
-import { getFirestore, collection, addDoc } from "firebase/firestore/lite";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { app } from "../../firebaseConfig";
+// import  from "firebase/firebase";
+// import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
+import { database, storage } from "../../firebase";
 //
 const posts = [
   {
@@ -76,27 +76,41 @@ const Feed = () => {
     //
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      const db = getFirestore(app);
-      const storage = getStorage(app);
+      // const db = getFirestore(app);
+      // const storage = getStorage(app);
+      const feedRef = database.collection('feed');
+      const storageRef = storage.ref();
       const id = uuid();
-      const imagesRef = ref(storage, `feed/images/${id}`);
+      // const imagesRef = ()`${id}`);
+      const feedStorageRef = storageRef.child(`feed/images/${id}`);
       const res = await fetch(result.assets[0].uri);
       const blob = await res.blob();
-      //
-      uploadBytes(imagesRef, blob)
-      .then(() => {
-        getDownloadURL(imagesRef)
-        .then(url => {
-          const imagesCol = collection(db, "feed");
-          addDoc(imagesCol, {
-            url,
-          }).then(() => {
-            console.log("Image added!");
-            console.log(url);
-          });
+      await feedStorageRef.put(blob).then((snapshot) => {
+        snapshot.ref.getDownloadURL().then(async(downloadURL) => {
+          // console.log('File available at', downloadURL);
+          const added = await feedRef.add({url: downloadURL});
+          console.log(added);
         });
-        ;
       });
+      // upload.snapshot.ref.getDownloadURL().then((downloadURL) => {
+      //   console.log('File available at', downloadURL);
+      // })
+      //
+      // uploadBytes(imagesRef, blob)
+      // .then(() => {
+      //   getDownloadURL(imagesRef)
+      //   .then(url => {
+          // const imagesCol = collection(database, "feed");
+          // addDoc(imagesCol, {
+          //   url,
+          // }).then(() => {
+          //   console.log("Image added!");
+          //   console.log(url);
+          // });
+      //     await feedRef.add({url});
+      //   });
+      //   ;
+      // });
     }
   };
   //
