@@ -48,7 +48,7 @@ const RegisterScreen = ({ navigation, route }) => {
         // console.log(res);
         await AsyncStorage.setItem("userData", JSON.stringify(res));
         dispatch(Login(username, password));
-        navigation.navigate("Home");
+        navigation.navigate("tabNavigator");
       }
     }
   };

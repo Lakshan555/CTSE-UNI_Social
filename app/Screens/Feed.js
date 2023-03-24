@@ -17,7 +17,6 @@ import * as ImagePicker from "expo-image-picker";
 // import  from "firebase/firebase";
 // import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import "react-native-get-random-values";
-import { v4 as uuid } from "uuid";
 import { database, storage } from "../../firebase";
 import {
   addFeedPost,
@@ -28,6 +27,7 @@ import {
 } from "../../backend/FeedController/FeedController";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 //
 // const posts = [
 //   {
@@ -78,9 +78,20 @@ const Feed = () => {
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
   const [posts, setPosts] = useState([]);
-  const [postToEdit, setPostToEdit] = useState({});
+  const [postToEdit, setPostToEdit] = useState({});  
+  const [USER, setUSER] = useState({});
+  //
+  const getUserDetails = async () => {
+    const u = await AsyncStorage.getItem("userData");
+    setUSER(JSON.parse(u))
+  }
   //
   useEffect(() => {
+    console.log(USER);
+  }, [USER])
+  //
+  useEffect(() => {
+    getUserDetails();
     getPostsCalls();
   }, []);
   //
@@ -125,8 +136,8 @@ const Feed = () => {
       createdAt: new Date(),
       description,
       user: {
-        id: 1,
-        name: "Pasindu",
+        id: USER.uid,
+        name: USER.username,
       },
       likes: [],
     });
@@ -156,21 +167,24 @@ const Feed = () => {
   return (
     <View style={{ height: "100%" }}>
       {posts && !!posts.length && (
-        <FlatList
-          data={posts}
-          renderItem={({ item }) =>
-            PostCardView({
-              item,
-              getAllFeedPosts,
-              setPosts,
-              setIsEditModalVisible,
-              postToEdit,
-              setPostToEdit,
-              editPost,
-            })
-          }
+        <View style={{paddingBottom: navbarHeight}}>
+          <FlatList
+            data={posts}
+            renderItem={({ item }) =>
+              PostCardView({
+                item,
+                getAllFeedPosts,
+                setPosts,
+                setIsEditModalVisible,
+                postToEdit,
+                setPostToEdit,
+                editPost,
+                USER,
+              })
+            }
           keyExtractor={(item) => item.id}
-        />
+          />
+          </View>
       )}
       <TouchableOpacity
         style={[styles.fabContainer, { bottom: navbarHeight + 15 }]}
@@ -291,8 +305,10 @@ const PostCardView = ({
   setIsEditModalVisible,
   setPostToEdit,
   postToEdit,
+  USER
 }) => {
-  const USER_ID = 1;
+
+  //
   const deletePhoto = async (id) => {
     await deleteFeedPhoto(id);
     const res = await getAllFeedPosts();
@@ -323,7 +339,7 @@ const PostCardView = ({
             alignItems: "center",
           }}
         >
-          {user.id === USER_ID && (
+          {user.id === USER.uid && (
             <>
               <TouchableOpacity onPress={() => deletePhoto(id)}>
                 <Icon
@@ -355,9 +371,9 @@ const PostCardView = ({
       <View style={styles.iconContainer}>
         <TouchableOpacity
           onPress={async () => {
-            if (!likes?.includes(USER_ID)) {
+            if (!likes?.includes(USER.uid)) {
               //add like
-              likes.push(USER_ID);
+              likes.push(USER.uid);
               const post = await editFeedPost(id, {
                 likes,
               });
@@ -365,8 +381,8 @@ const PostCardView = ({
               const response = await getAllFeedPosts();
               setPosts(response);
             } else {
-              const updatedLikes = likes.filter((l) => l !== USER_ID);
-              likes.push(USER_ID);
+              const updatedLikes = likes.filter((l) => l !== USER.uid);
+              likes.push(USER.uid);
               const post = await editFeedPost(id, {
                 likes: updatedLikes,
               });
@@ -376,8 +392,8 @@ const PostCardView = ({
             }
           }}
         >
-          {!likes?.includes(USER_ID) && <Icon name="heart-outline" size={40} />}
-          {likes?.includes(USER_ID) && (
+          {!likes?.includes(USER.uid) && <Icon name="heart-outline" size={40} />}
+          {likes?.includes(USER.uid) && (
             <Icon name="heart" color="red" size={40} />
           )}
         </TouchableOpacity>
