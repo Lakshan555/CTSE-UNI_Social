@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { Login } from "../store/actions";
-import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 const { height, width } = Dimensions.get("window");
@@ -45,7 +44,6 @@ export default function LoginScreen({ navigation, route }) {
 
   return (
     <ScrollView style={styles.container}>
-      <Ionicons name="chevron-back" size={30} color="black" />
       <View style={styles.logo}>
         <Image size={80} source={require("../images/logo.png")} />
       </View>
@@ -99,7 +97,7 @@ export default function LoginScreen({ navigation, route }) {
             }}
           >
             <Text style={styles.newAccText}>Create new account.</Text>
-          </TouchableOpacity>          
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
