@@ -31,16 +31,17 @@ export default function LoginScreen({ navigation, route }) {
   const dispatch = useDispatch();
 
   const onSubmit = async () => {
-    if (username && password) {
-      const user = await logInWithEmailAndPassword(username, password);
-      if (user) {
-        const res = await getUserRoleByEmail(user.email);
-        console.log(res);
-        await AsyncStorage.setItem("userData", JSON.stringify(res));
-        dispatch(Login(username, password));
-        navigation.navigate("tabNavigator");
-      }
-    }
+    // if (username && password) {
+    //   const user = await logInWithEmailAndPassword(username, password);
+    //   if (user) {
+    //     const res = await getUserRoleByEmail(user.email);
+    //     console.log(res);
+    //     await AsyncStorage.setItem("userData", JSON.stringify(res));
+    //     dispatch(Login(username, password));
+    //     navigation.navigate("tabNavigator");
+    //   }
+    // }
+    navigation.navigate("tabNavigator");
   };
 
   return (

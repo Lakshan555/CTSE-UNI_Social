@@ -26,4 +26,4 @@ const storage = firebase.storage();
 
 // const database = getFirestore(app);
 
-export { auth, database, storage };
+export { auth, database, storage, firebaseConfig };
