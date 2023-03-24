@@ -28,3 +28,5 @@ const storage = firebase.storage();
 // const database = getFirestore(app);
 
 export { auth, database, storage };
+
+// gs://socialapp-d9600.appspot.com
