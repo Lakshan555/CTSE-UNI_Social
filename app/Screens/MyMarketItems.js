@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -9,16 +8,15 @@ import {
   FlatList,
   Image,
 } from "react-native";
+import React from "react";
 import { Octicons } from "@expo/vector-icons";
-// import axios from "axios";
-import { useDispatch } from "react-redux";
-// import { setLocationDetials } from "../../Store/actions";
+
 const { height, width } = Dimensions.get("window");
 
 const CardComponent = ({ title, navigation, id }) => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("MarketPlaceViewDetails", { id: id })}
+      onPress={() => navigation.navigate("MyItemDetails", { id: id })}
     >
       <View style={styles.cardContent}>
         <View style={styles.imageContainer}>
@@ -43,7 +41,7 @@ const CardComponent = ({ title, navigation, id }) => {
   );
 };
 
-function MarketPlace({ navigation }) {
+const MyMarketItems = ({ navigation }) => {
   const items = [
     {
       id: "1",
@@ -74,39 +72,8 @@ function MarketPlace({ navigation }) {
     <CardComponent title={item.title} navigation={navigation} id={item._id} />
   );
 
-  const [locations, setLocations] = useState([]);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    // axios
-    //   .get(
-    //     `https://travel-buddy-research.herokuapp.com/locationDetails/location`
-    //   )
-    //   .then((result) => {
-    //     setLocations(result.data);
-    //     dispatch(setLocationDetials(result.data));
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  }, []);
-
   return (
     <View style={styles.container}>
-      <View style={styles.myMarketContainer}>
-        <TouchableOpacity
-          style={styles.myBtn}
-          onPress={() => navigation.navigate("MyMarketItems")}
-        >
-          <Text style={styles.addTxt}>My Market</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.addBtn}
-          onPress={() => navigation.navigate("AddNewMarketItem")}
-        >
-          <Text style={styles.addTxt}>+ Add</Text>
-        </TouchableOpacity>
-      </View>
       <FlatList
         data={items}
         renderItem={renderItem}
@@ -117,9 +84,9 @@ function MarketPlace({ navigation }) {
       />
     </View>
   );
-}
+};
 
-export default MarketPlace;
+export default MyMarketItems;
 
 const styles = StyleSheet.create({
   container: {

@@ -8,6 +8,8 @@ import { store } from "./app/store/index";
 import Login from "./app/components/LoginScreen";
 import SplashScreen from "./app/components/SplashScreen";
 import Feed from "./app/Screens/Feed";
+import blogDetails from "./app/Screens/Blog/blogDetails";
+import AddBlog from "./app/Screens/Blog/AddBlog";
 
 const MyStack = () => {
   return (
@@ -27,13 +29,29 @@ const MyStack = () => {
         options={{ headerShown: false }}
         component={TabNavigator}
       />
+      <Stack.Screen
+        name="blogDetails"
+        options={{ headerShown: false }}
+        component={blogDetails}
+      />
+       <Stack.Screen
+        name="blogForm"
+        options={{ headerShown: false }}
+        component={AddBlog}
+      />
     </Stack.Navigator>
   );
 };
 
 const AuthStack = () => {
   return (
+    
     <Stack.Navigator>
+        <Stack.Screen
+        name="tabNavigator"
+        options={{ headerShown: false }}
+        component={TabNavigator}
+      />
       <Stack.Screen
         options={{ headerShown: false }}
         component={SplashScreen}
@@ -48,6 +66,16 @@ const AuthStack = () => {
         name="Feed"
         options={{ headerShown: false }}
         component={Feed}
+        />
+       <Stack.Screen
+        name="blogDetails"
+        options={{ headerShown: false }}
+        component={blogDetails}
+      />
+       <Stack.Screen
+        name="blogForm"
+        options={{ headerShown: false }}
+        component={AddBlog}
       />
     </Stack.Navigator>
   );

@@ -5,6 +5,8 @@ import TabBar from "../components/TabBar";
 import Home from "../components/Home";
 import MarketPlaceNavigation from "./MarketPlaceNavigation";
 import Feed from "../Screens/Feed";
+import InquiryHelpNavigation from "./InquiryHelpNavigation";
+import BlogHome from "../Screens/Blog/BlogHome";
 
 //invoke navigation function. it will return a component
 const Tab = createBottomTabNavigator();
@@ -19,7 +21,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Report"
-        component={Home}
+        component={BlogHome}
         initialParams={{ icon: require("../images/OpenBook.png") }}
         options={{ headerShown: false }}
       />
@@ -37,9 +39,9 @@ const TabNavigator = () => {
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name="b"
-        component={Home}
-        initialParams={{ icon: require("../images/profile.png") }}
+        name="InquiryHelpNavigation"
+        component={InquiryHelpNavigation}
+        initialParams={{ icon: require("../images/QuestionAndAnswer.png") }}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
