@@ -3,14 +3,14 @@ import "firebase/firestore";
 import "firebase/auth";
 import "firebase/storage";
 
-// Firebase app configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDe1wlKciXGWTWyBaLUYu39qEgkdPlq7eA",
-  authDomain: "unisocialapp-e3389.firebaseapp.com",
-  projectId: "unisocialapp-e3389",
-  storageBucket: "gs://unisocialapp-e3389.appspot.com",
-  messagingSenderId: "1039820270186",
-  appId: "1:1039820270186:web:37cbb34c867b698394f813",
+  apiKey: "AIzaSyBYOnuCfDz2f-JNczyqD4-4zgWC7yyc604",
+  authDomain: "socialapp-d9600.firebaseapp.com",
+  projectId: "socialapp-d9600",
+  storageBucket: "gs://socialapp-d9600.appspot.com",
+  messagingSenderId: "621042950926",
+  appId: "1:621042950926:web:01f65bd282300ffc7ced5f",
+  measurementId: "G-S89S21THHF"
 };
 
 // Initialize Firebase
