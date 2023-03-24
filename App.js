@@ -59,11 +59,6 @@ const AuthStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="tabNavigator"
-        options={{ headerShown: false }}
-        component={TabNavigator}
-      />
-      <Stack.Screen
         options={{ headerShown: false }}
         component={SplashScreen}
         name="SplashScreen"
