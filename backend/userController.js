@@ -20,16 +20,20 @@ const logInWithEmailAndPassword = async (email, password) => {
 };
 
 // Create new user in Firebase Firestore
-const registerWithEmailAndPassword = async (email, password, role) => {
+const registerWithEmailAndPassword = async (
+  userName,
+  email,
+  password,
+  role
+) => {
   try {
     const userCredential = await auth.createUserWithEmailAndPassword(
-      auth,
       email,
-      password,
-      role
+      password
     );
     const user = userCredential.user;
     await usersCollection.doc(user.uid).set({
+      userName: user.userName,
       email: user.email,
       uid: user.uid,
       role: user.role,

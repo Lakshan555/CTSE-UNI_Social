@@ -55,9 +55,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "white",
     justifyContent: "space-between",
+    elevation: 10,    
     // width: 320,
     // borderRadius: 100,
-    // elevation: 2,
   },
 });
 
