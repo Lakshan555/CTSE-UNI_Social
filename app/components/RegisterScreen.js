@@ -45,7 +45,7 @@ const RegisterScreen = ({ navigation, route }) => {
         // console.log(res);
         await AsyncStorage.setItem("userData", JSON.stringify(res));
         dispatch(Login(username, password));
-        navigation.navigate("Home");
+        navigation.navigate("tabNavigator");
       }
     }
   };
@@ -104,7 +104,7 @@ const RegisterScreen = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
         <View style={styles.newAcc}>
-          <Text>Already registered?</Text>
+          <Text>Already registered? </Text>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Login");
