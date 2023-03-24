@@ -21,26 +21,21 @@ const logInWithEmailAndPassword = async (email, password) => {
 
 // Create new user in Firebase Firestore
 const registerWithEmailAndPassword = async (
-  userName,
+  username,
   email,
-  password,
-  role
+  role,
+  password
 ) => {
   try {
-    const userCredential = await auth.createUserWithEmailAndPassword(
-      email,
-      password
-    );
-    const user = userCredential.user;
+    const { user } = await auth.createUserWithEmailAndPassword(email, password);
     await usersCollection.doc(user.uid).set({
-      userName: user.userName,
-      email: user.email,
+      username,
+      email,
+      role,
       uid: user.uid,
-      role: user.role,
     });
     return user;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
     alert(err.message);
   }
 };
