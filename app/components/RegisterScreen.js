@@ -40,15 +40,15 @@ const RegisterScreen = ({ navigation, route }) => {
       const user = await registerWithEmailAndPassword(
         username,
         email,
-        password,
         role,
+        password,
       );
       if (user) {
-        // const res = await getUserRoleByEmail(user.email);
+        const res = await getUserRoleByEmail(user.email);
         // console.log(res);
-        // await AsyncStorage.setItem("userData", JSON.stringify(res));
+        await AsyncStorage.setItem("userData", JSON.stringify(res));
         dispatch(Login(username, password));
-        navigation.navigate("tabNavigator");
+        navigation.navigate("Home");
       }
     }
   };
