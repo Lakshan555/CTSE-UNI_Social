@@ -12,20 +12,47 @@ import {
 import { Octicons } from "@expo/vector-icons";
 // import axios from "axios";
 import { useDispatch } from "react-redux";
+import { getAllMarketItems } from "../../backend/PostController/MarketItemController";
 // import { setLocationDetials } from "../../Store/actions";
 const { height, width } = Dimensions.get("window");
 
-const CardComponent = ({ title, navigation, id }) => {
+const CardComponent = ({
+  title,
+  image,
+  description,
+  price,
+  navigation,
+  id,
+}) => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("MarketPlaceViewDetails", { id: id })}
+      onPress={() =>
+        navigation.navigate("MarketPlaceViewDetails", {
+          id: id,
+          title: title,
+          description: description,
+          image: image,
+          price: price,
+        })
+      }
     >
       <View style={styles.cardContent}>
         <View style={styles.imageContainer}>
+          <Image source={{ uri: image }} style={styles.cardImage} />
+
           <Text style={styles.cardTitle}>{title}</Text>
+          <Text style={styles.price}>{price}</Text>
           <View style={styles.cardMoreDetails}>
-            <Pressable
-              onPress={() => navigation.navigate("MarketPlaceViewDetails")}
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("MarketPlaceViewDetails", {
+                  id: id,
+                  title: title,
+                  description: description,
+                  image: image,
+                  price: price,
+                })
+              }
             >
               <View style={styles.seeMoreContainer}>
                 <Text style={styles.seeMoretext}>See more</Text>
@@ -35,7 +62,7 @@ const CardComponent = ({ title, navigation, id }) => {
                   style={styles.seeMoreIcon}
                 />
               </View>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -44,51 +71,29 @@ const CardComponent = ({ title, navigation, id }) => {
 };
 
 function MarketPlace({ navigation }) {
-  const items = [
-    {
-      id: "1",
-      title: "Laptop - Dell",
-    },
-    {
-      id: "2",
-      title: "Chocolates- kitkat",
-    },
-    {
-      id: "3",
-      title: "Laptop - Dell",
-    },
-    {
-      id: "4",
-      title: "Chocolates- kitkat",
-    },
-    {
-      id: "5",
-      title: "Laptop - Dell",
-    },
-    {
-      id: "6",
-      title: "Chocolates- kitkat",
-    },
-  ];
   const renderItem = ({ item }) => (
-    <CardComponent title={item.title} navigation={navigation} id={item._id} />
+    <CardComponent
+      title={item.title}
+      image={item.imageUrl}
+      price={item.price}
+      description={item.description}
+      navigation={navigation}
+      id={item._id}
+    />
   );
 
-  const [locations, setLocations] = useState([]);
-  const dispatch = useDispatch();
+  const [marketItems, setMarketItmes] = useState([]);
 
   useEffect(() => {
-    // axios
-    //   .get(
-    //     `https://travel-buddy-research.herokuapp.com/locationDetails/location`
-    //   )
-    //   .then((result) => {
-    //     setLocations(result.data);
-    //     dispatch(setLocationDetials(result.data));
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    getAllMarketItems()
+      .then((res) => {
+        console.log("successfully fetched all items : ", res);
+        setMarketItmes(res);
+      })
+      .catch((err) => {
+        console.log("err : " + err);
+        Alert.alert("Failed", "Item Added Failed", [{ text: "OK" }]);
+      });
   }, []);
 
   return (
@@ -108,7 +113,7 @@ function MarketPlace({ navigation }) {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={items}
+        data={marketItems}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
@@ -139,12 +144,12 @@ const styles = StyleSheet.create({
     borderColor: "#8189B0",
     borderWidth: 0.4,
   },
-  // cardImage: {
-  //     height: height / 8,
-  //     width: "100%",
-  //     borderTopRightRadius: 9,
-  //     borderTopLeftRadius:9
-  // },
+  cardImage: {
+    height: height / 10,
+    width: "100%",
+    borderTopRightRadius: 9,
+    borderTopLeftRadius: 9,
+  },
   imageContainer: {
     height: height / 8,
     width: "100%",
@@ -152,6 +157,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 9,
   },
   cardTitle: {
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
   },
@@ -225,5 +231,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#8189B0",
     borderWidth: 2,
+  },
+  price: {
+    fontSize: 12,
+    textAlign: "center",
   },
 });

@@ -1,19 +1,31 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import firebase from "firebase/app";
+import "firebase/firestore";
+import "firebase/auth";
+import "firebase/storage";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDhsoB9J5o8b1niR0QoSQaLizeTABZJf9s",
-  authDomain: "ctseapp-31f99.firebaseapp.com",
-  projectId: "ctseapp-31f99",
-  storageBucket: "ctseapp-31f99.appspot.com",
-  messagingSenderId: "863286937928",
-  appId: "1:863286937928:web:a371aa91fae58dc26c0b7d",
-  measurementId: "G-S0TDTFKVC1",
+  apiKey: "AIzaSyBYOnuCfDz2f-JNczyqD4-4zgWC7yyc604",
+  authDomain: "socialapp-d9600.firebaseapp.com",
+  projectId: "socialapp-d9600",
+  storageBucket: "gs://socialapp-d9600.appspot.com",
+  messagingSenderId: "621042950926",
+  appId: "1:621042950926:web:01f65bd282300ffc7ced5f",
+  measurementId: "G-S89S21THHF"
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+// Create a Firestore instance
+const database = firebase.firestore();
+// Create an authentication instance
+const auth = firebase.auth();
+//
+const storage = firebase.storage();
+
+// const database = getFirestore(app);
+
+export { auth, database, storage, firebaseConfig };
+
+// gs://socialapp-d9600.appspot.com

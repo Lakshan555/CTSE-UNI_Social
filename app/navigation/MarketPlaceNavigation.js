@@ -1,5 +1,5 @@
 import React from "react";
-import { createNativeStackNavigator } from "react-native-screens/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AddNewMarketItem from "../Screens/AddNewMarketItem";
 import MarketPlace from "../Screens/MarketPlace";
 import MarketPlaceViewDetails from "../Screens/MarketPlaceViewDetails";
@@ -25,6 +25,13 @@ function MarketPlaceNavigation() {
           title: "Find More",
           headerTintColor: "white",
           headerStyle: { backgroundColor: "#39367e" },
+        }}
+        initialParams={{
+          id: "",
+          title: "",
+          description: "",
+          image: "",
+          price: "",
         }}
         name="MarketPlaceViewDetails"
         component={MarketPlaceViewDetails}
@@ -54,6 +61,13 @@ function MarketPlaceNavigation() {
           headerStyle: { backgroundColor: "#39367e" },
         }}
         name="MyItemDetails"
+        initialParams={{
+          id: "",
+          title: "",
+          description: "",
+          image: "",
+          price: "",
+        }}
         component={MyItemDetails}
       />
     </Stack.Navigator>
