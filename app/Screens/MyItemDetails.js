@@ -28,6 +28,7 @@ const MyItemDetails = ({ navigation, route }) => {
   const [upPrice, setPrice] = useState(0);
 
   const onUpdate = () => {
+    console.log("upTitle : ", upTitle);
     console.log("onUpdate");
     updateItem(id, image, upTitle, upDescription, upPrice)
       .then((res) => {
@@ -42,7 +43,7 @@ const MyItemDetails = ({ navigation, route }) => {
   };
 
   const onDelete = () => {
-    console.log("onDelete");
+    console.log("onDelete : ", id);
     deleteItem(id)
       .then((res) => {
         console.log(res);

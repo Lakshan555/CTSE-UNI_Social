@@ -24,7 +24,7 @@ const CardComponent = ({
   navigation,
   id,
 }) => {
-  console.log("CardComponent", image);
+  console.log("CardComponent", id);
   return (
     <TouchableOpacity
       onPress={() =>
@@ -92,7 +92,7 @@ const MyMarketItems = ({ navigation }) => {
       price={item.price}
       description={item.description}
       navigation={navigation}
-      id={item._id}
+      id={item.id}
     />
   );
 
