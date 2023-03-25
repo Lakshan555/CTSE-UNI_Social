@@ -55,6 +55,7 @@ export const getMyItems = async (userId) => {
 };
 
 export const updateItem = async (id, imageUrl, title, description, price) => {
+  console.log("update items : ", id, imageUrl, title, description, price);
   return new Promise(async (resolve, reject) => {
     try {
       const todoRef = itemRef.doc(id);
@@ -76,6 +77,7 @@ export const updateItem = async (id, imageUrl, title, description, price) => {
 
 export const deleteItem = async (id) => {
   return new Promise(async (resolve, reject) => {
+    console.log("id: ", id);
     try {
       const todoRef = itemRef.doc(id);
       const data = await todoRef.delete();
