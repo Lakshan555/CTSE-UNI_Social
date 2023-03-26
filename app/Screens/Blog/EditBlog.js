@@ -78,6 +78,7 @@ const EditBlog = ({ route, navigation }) => {
               style={styles.inputInside}
               onChangeText={setBody}
               value={body}
+              multiline
               placeholder="Tell your story…"
             />
           </View>
