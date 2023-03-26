@@ -7,10 +7,15 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { createPost } from "../../../backend/PostController/Postcontroller";
 import Header from "../../components/Common/Header";
+
+//for image
+import * as Firebase from "firebase";
+import * as ImagePicker from "expo-image-picker";
 
 const AddBlog = ({ route, navigation }) => {
   const [title, setTitle] = useState("");
@@ -38,6 +43,69 @@ const AddBlog = ({ route, navigation }) => {
     }
   }, []);
 
+  const [image, setImage] = useState();
+  const [uploading, setUploading] = useState(false);
+  const [downloadURL, setDownloadURL] = useState(null);
+  const [imageUploaded, setImageUploaded] = useState(false);
+
+  const uploadImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.uri);
+    }
+    const imageUpload = await uploadToFirebase();
+  };
+
+  const uploadToFirebase = async () => {
+    console.log("Uploading to Firebase...", image);
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", image, true);
+      xhr.send(null);
+    });
+
+    const ref = Firebase.storage().ref().child(new Date().toString());
+    const snapshot = ref.put(blob);
+
+    snapshot.on(
+      Firebase.storage.TaskEvent.STATE_CHANGED,
+      () => {
+        setUploading(true);
+      },
+      (error) => {
+        setUploading(false);
+        console.log("error - ", error);
+        blob.close();
+        return;
+      },
+      () => {
+        snapshot.snapshot.ref.getDownloadURL().then((url) => {
+          setUploading(false);
+          console.log("Download url - ", url);
+          setDownloadURL(url);
+          setImageUploaded(true);
+          blob.close();
+          return url;
+        });
+      }
+    );
+  };
+
   return (
     <View style={styles.screen}>
       <Header prop1="Test Detols pAge" />
@@ -61,6 +129,21 @@ const AddBlog = ({ route, navigation }) => {
               multiline
               placeholder="Tell your story…"
             />
+          </View>
+          <View style={styles.imageContainer}>
+            <TouchableWithoutFeedback
+              style={styles.addImagebtn}
+              onPress={uploadImage}
+            >
+              <Image
+                source={
+                  image === null
+                    ? require("../../../app/images/add_image.png")
+                    : { uri: image }
+                }
+                style={styles.locationImage}
+              />
+            </TouchableWithoutFeedback>
           </View>
           <View>
             <TouchableOpacity
@@ -97,6 +180,29 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     paddingTop: 20,
     width: "100%",
+  },
+  addImagebtn: {
+    width: "100%",
+    height: "100%",
+  },
+  imageContainer: {
+    width: "95%",
+    height: "40%",
+    margin: 10,
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    borderRadius: 9,
+  },
+  locationImage: {
+    width: "100%",
+    height: "100%",
   },
   card: {
     shadowColor: "black",
